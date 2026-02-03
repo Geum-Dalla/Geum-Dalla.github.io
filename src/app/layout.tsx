@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Link from "next/link";
+import ResponsiveNav from "@/ui/nav/ResponsiveNav";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,13 +15,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <nav className="p-4 border-b flex gap-4">
-          <Link href="/" className="font-bold">
-            Home
-          </Link>
-          <Link href="/posts">Posts</Link>
+        <main>{children}</main>
+        <nav>
+          <ResponsiveNav />
         </nav>
-        {children}
       </body>
     </html>
   );
