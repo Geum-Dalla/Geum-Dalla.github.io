@@ -1,3 +1,4 @@
+import { getArticleTree } from "@/lib/articles/tree";
 import Image from "next/image";
 
 export default function Home() {
@@ -9,9 +10,7 @@ export default function Home() {
           <h1 className="text-3xl font-extrabold tracking-tight text-black sm:text-3xl">
             안녕하세요, <span className="text-blue-600">Geum-Dalla</span>입니다.
           </h1>
-          <p className="text-xl text-gray-600 font-medium">
-            React + Java 풀스택 개발자를 꿈꾸는 성장 기록 공간입니다.
-          </p>
+          <p className="text-xl text-gray-600 font-medium">React + Java 풀스택 개발자를 꿈꾸는 성장 기록 공간입니다.</p>
         </div>
 
         {/* 간단한 소개 카드 */}
@@ -49,9 +48,7 @@ export default function Home() {
       </main>
 
       {/* 하단 푸터 */}
-      <footer className="mt-20 text-gray-400 text-sm">
-        © 2026 Geum-Dalla. Built with Next.js (Static Export)
-      </footer>
+      <footer className="mt-20 text-gray-400 text-sm">© 2026 Geum-Dalla. Built with Next.js (Static Export)</footer>
     </div>
   );
 }

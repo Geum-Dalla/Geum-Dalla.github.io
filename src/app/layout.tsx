@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import ResponsiveNav from "@/ui/nav/ResponsiveNav";
+import Nav from "@/components/nav/Nav";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +17,7 @@ export default function RootLayout({
       <body>
         <main>{children}</main>
         <nav>
-          <ResponsiveNav />
+          <Nav />
         </nav>
       </body>
     </html>
