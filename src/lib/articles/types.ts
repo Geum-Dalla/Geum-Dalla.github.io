@@ -17,7 +17,6 @@ export interface FileNode extends TreeNode {
     title?: string;
     date?: string;
     description?: string;
-    [key: string]: any;
   };
 }
 

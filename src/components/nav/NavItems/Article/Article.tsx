@@ -3,9 +3,10 @@
 import { FolderClosed, FolderOpen } from "lucide-react";
 
 import NavButton from "@/ui/nav/NavButton";
-import { useNavContext } from "../../NavigationProvider";
+import { useNavContext } from "@/components/nav/NavigationProvider";
+import { TreeNode } from "@/lib/articles/types";
 
-export default function Article({ FolderTree }) {
+export default function Article({ FolderTree }: { FolderTree: TreeNode }) {
   const { activeId, setActiveId } = useNavContext();
   console.log(FolderTree);
   const state = activeId === "Article";
