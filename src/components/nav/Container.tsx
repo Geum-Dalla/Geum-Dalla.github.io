@@ -1,17 +1,14 @@
-import { Home, Search, PlusSquare, User, FolderTree } from "lucide-react";
+import ResponsiveNav from "@/components/nav/Navigation";
 
-import ResponsiveNav from "@/components/nav/ResponsiveNav";
-
-import Content from "./article/Content";
+// 이곳에서 버튼들을 import 해와서 직접 뿌려주기
+import Home from "@/components/nav/NavItems/Home";
+import Article from "@/components/nav/NavItems/Article/Container";
 
 export default function NavContainer() {
-  const navItemInfos = [
-    { Icon: "Home", label: "home" },
-    { Icon: "FolderTree", label: "article", Content: <Content /> },
-    { Icon: "Search", label: "search" },
-    { Icon: "PlusSquare", label: "alarm" },
-    { Icon: "User", label: "useInfo" },
-  ];
-
-  return <ResponsiveNav navItemInfos={navItemInfos} />;
+  return (
+    <ResponsiveNav>
+      <Home></Home>
+      <Article></Article>
+    </ResponsiveNav>
+  );
 }

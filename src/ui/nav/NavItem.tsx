@@ -12,39 +12,17 @@ export interface NavItemProps {
   Icon: LucideIcon;
   label: string;
   isActive?: boolean;
-  children?: React.ReactNode;
-  href?: string;
-  onClick?: () => void;
 }
-export default function NavItem({ Icon, label, isActive, children: Content, onClick }: NavItemProps) {
-  const content = (
-    <>
-      <div className={clsx(iconStyles, isActive && activedIconStyles)}>
-        <Icon color={isActive ? "red" : "black"} />
-      </div>
-      <span className="sr-only">{label}</span>
-    </>
-  );
 
+export default function NavItem({ Icon, label, isActive }: NavItemProps) {
   return (
-    <div className="relative" onClick={onClick}>
-      {Content && (
-        <div
-          className={`
-            absolute bottom-15 left-1/2 -translate-x-1/2 w-max
-            bg-blue-500 rounded px-2 py-1
-            transition-transform duration-200 ease-out origin-bottom
-            ${
-              isActive
-                ? "opacity-100 visible scale-100 translate-y-0" // 활성: 원래 크기, 원래 위치
-                : "opacity-0 invisible scale-0 translate-y-4 pointer-events-none" // 비활성: 작아지고, 약간 아래로, 클릭 방지
-            }
-          `}
-        >
-          {Content}
+    <div>
+      <button className="group relative flex flex-col items-center justify-center p-2">
+        <div className={clsx(iconStyles, isActive && activedIconStyles)}>
+          {<Icon color={isActive ? "red" : "black"} />}
         </div>
-      )}
-      <button className="group relative flex flex-col items-center justify-center p-2">{content}</button>
+        <span className="sr-only">{label}</span>
+      </button>
     </div>
   );
 }
