@@ -1,22 +1,22 @@
+"use client";
 import clsx from "clsx";
 import { LucideIcon } from "lucide-react";
 
-interface NavItemProps {
-  Icon: LucideIcon;
-  label: string;
-  isActive: boolean;
-  Content: React.ReactNode;
-  href?: string;
-  onClick?: () => void;
-}
-
-export default function NavItem({ Icon, label, isActive, Content }: NavItemProps) {
-  const iconStyles = `
+const iconStyles = `
   w-6 h-6 text-gray-800 transition-transform duration-200 ease-out group-hover:scale-140
   md:w-8 md:h-8 md:text-black flex items-center justify-center
   `;
-  const activedIconStyles = "scale-200 group-hover:scale-200";
+const activedIconStyles = "scale-200 group-hover:scale-200";
 
+export interface NavItemProps {
+  Icon: LucideIcon;
+  label: string;
+  isActive?: boolean;
+  children?: React.ReactNode;
+  href?: string;
+  onClick?: () => void;
+}
+export default function NavItem({ Icon, label, isActive, children: Content, onClick }: NavItemProps) {
   const content = (
     <>
       <div className={clsx(iconStyles, isActive && activedIconStyles)}>
@@ -27,7 +27,7 @@ export default function NavItem({ Icon, label, isActive, Content }: NavItemProps
   );
 
   return (
-    <div className="relative">
+    <div className="relative" onClick={onClick}>
       {Content && (
         <div
           className={`

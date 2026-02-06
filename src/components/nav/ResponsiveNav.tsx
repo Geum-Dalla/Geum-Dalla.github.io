@@ -1,11 +1,17 @@
 "use client";
-import { Home, Search, PlusSquare, User, FolderTree } from "lucide-react";
-import { useState } from "react";
 
+import { useState } from "react";
 import { cn } from "@/lib/styleUtils";
 import NavItem from "@/ui/nav/NavItem";
-import Content from "@/components/nav/article/Content";
+import { Home, Search, User, FolderTree, PlusSquare, HelpCircle, LucideIcon } from "lucide-react";
 
+const ICON_MAP: { [keys: string]: LucideIcon } = {
+  Home: Home,
+  Search: Search,
+  User: User,
+  FolderTree: FolderTree,
+  PlusSquare: PlusSquare,
+};
 const mobileStyles = "w-full h-14 bg-white border-t border-gray-200 flex items-center justify-around px-2 pb-safe";
 
 const desktopStyles = `
@@ -21,16 +27,11 @@ const desktopStyles = `
     md:shadow-2xl
   `;
 
-const tempNavItems = [
-  { Icon: Home, label: "홈" },
-  { Icon: FolderTree, label: "글", Content: <Content /> },
-  { Icon: Search, label: "검색" },
-  { Icon: PlusSquare, label: "알림" },
-  { Icon: User, label: "내 정보" },
-];
+interface ResponsiveNavProps {
+  navItemInfos: { Icon: string; label: string; Content?: React.ReactNode }[];
+}
 
-//TODO: NavItem은 주입받아서 렌더링
-export default function ResponsiveNav() {
+export default function ResponsiveNav({ navItemInfos }: ResponsiveNavProps) {
   const [ActiveItem, setActiveItem] = useState<string | null>("home");
 
   const activeHandler = (label: string) => {
@@ -43,19 +44,23 @@ export default function ResponsiveNav() {
 
   return (
     <>
-      {" "}
       <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
         <nav className={cn("pointer-events-auto transition-all duration-300 ease-in-out", mobileStyles, desktopStyles)}>
-          {tempNavItems.map(({ Icon, label, Content }) => (
-            <span
-              key={label}
-              onClick={() => {
-                activeHandler(label);
-              }}
-            >
-              <NavItem Icon={Icon} label={label} isActive={ActiveItem === label} Content={Content} />
-            </span>
-          ))}
+          {navItemInfos.map(({ Icon, label, Content }) => {
+            const icon = ICON_MAP[Icon] || HelpCircle;
+            return (
+              <span
+                key={label}
+                onClick={() => {
+                  activeHandler(label);
+                }}
+              >
+                <NavItem Icon={icon} label={label} isActive={ActiveItem === label}>
+                  {Content}
+                </NavItem>
+              </span>
+            );
+          })}
         </nav>
       </div>
     </>
