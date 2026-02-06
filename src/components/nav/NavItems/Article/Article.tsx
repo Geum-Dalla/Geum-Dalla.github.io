@@ -2,8 +2,8 @@
 
 import { FolderClosed, FolderOpen } from "lucide-react";
 
-import NavItem from "@/ui/nav/NavItem";
-import { useNavContext } from "../../Navigation";
+import NavButton from "@/ui/nav/NavButton";
+import { useNavContext } from "../../NavigationProvider";
 
 export default function Article({ FolderTree }) {
   const { activeId, setActiveId } = useNavContext();
@@ -16,7 +16,7 @@ export default function Article({ FolderTree }) {
         else setActiveId("Article");
       }}
     >
-      <NavItem Icon={state ? FolderOpen : FolderClosed} label="Home" isActive={state} />
+      <NavButton Icon={state ? FolderOpen : FolderClosed} label="Home" isActive={state} />
     </span>
   );
 }

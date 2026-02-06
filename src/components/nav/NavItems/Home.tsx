@@ -1,10 +1,9 @@
 "use client";
-
+import Link from "next/link";
 import { Home } from "lucide-react";
 
-import { useNavContext } from "@/components/nav/Navigation";
-import NavItem from "@/ui/nav/NavItem";
-import Link from "next/link";
+import { useNavContext } from "@/components/nav/NavigationProvider";
+import NavButton from "@/ui/nav/NavButton";
 
 export default function HomeButton() {
   const { setActiveId } = useNavContext();
@@ -16,7 +15,7 @@ export default function HomeButton() {
       className="active:scale-110"
     >
       <Link href="/">
-        <NavItem Icon={Home} label="Home" />
+        <NavButton Icon={Home} label="Home" />
       </Link>
     </span>
   );

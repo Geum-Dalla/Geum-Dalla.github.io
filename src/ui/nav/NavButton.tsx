@@ -14,7 +14,7 @@ export interface NavItemProps {
   isActive?: boolean;
 }
 
-export default function NavItem({ Icon, label, isActive }: NavItemProps) {
+export default function NavButton({ Icon, label, isActive }: NavItemProps) {
   return (
     <div>
       <button className="group relative flex flex-col items-center justify-center p-2">

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-import NavContainer from "@/components/nav/Container";
+import NavContainer from "@/components/nav/NavContainer";
 import { PropsWithChildren } from "react";
 
 export const metadata: Metadata = {
