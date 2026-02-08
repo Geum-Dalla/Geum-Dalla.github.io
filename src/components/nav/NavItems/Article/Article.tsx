@@ -4,8 +4,9 @@ import { FolderClosed, FolderOpen } from "lucide-react";
 
 import NavButton from "@/ui/nav/NavButton";
 import { useNavContext } from "@/components/nav/NavigationProvider";
-import { TreeNode } from "@/lib/articles/types";
+import { FolderNode } from "@/lib/articles/types";
 import FileTree from "@/ui/nav/article/FileTree";
+import clsx from "clsx";
 
 /*
 컴포넌트 파일에서 할 수 있는 일
@@ -15,23 +16,20 @@ import FileTree from "@/ui/nav/article/FileTree";
 크기 제한 (max-w-screen-md, h-screen)
 배경색 (bg-gray-100 - 페이지 전체 배경 같은 경우)
 */
-export default function Article({ FolderTree }: { FolderTree: TreeNode }) {
+const basicFileTreeStyles = `
+      absolute bottom-15 left-1/2 -translate-x-1/2 w-max
+      rounded px-2 py-1 
+      transition-transform duration-200 ease-out origin-bottom
+`;
+const openFileTreeStyles = "opacity-100 visible scale-100 translate-y-0"; // 활성: 원래 크기, 원래 위치
+const closedFileTreeStyles = "opacity-0 invisible scale-0 translate-y-4 pointer-events-none"; // 비활성: 작아지고, 약간 아래로, 클릭 방지
+
+export default function Article({ FolderTree }: { FolderTree: FolderNode }) {
   const { activeId, setActiveId } = useNavContext();
   const state = activeId === "Article";
   return (
     <span className="relative">
-      <span
-        className={`
-      absolute bottom-15 left-1/2 -translate-x-1/2 
-      rounded px-2 py-1 w-max
-      transition-transform duration-200 ease-out origin-bottom
-      ${
-        state
-          ? "opacity-100 visible scale-100 translate-y-0" // 활성: 원래 크기, 원래 위치
-          : "opacity-0 invisible scale-0 translate-y-4 pointer-events-none" // 비활성: 작아지고, 약간 아래로, 클릭 방지
-      }
-    `}
-      >
+      <span className={clsx(basicFileTreeStyles, state ? openFileTreeStyles : closedFileTreeStyles)}>
         <FileTree isActive={state} Tree={FolderTree} />
       </span>
       <NavButton

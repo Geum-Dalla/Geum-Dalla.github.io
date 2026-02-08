@@ -1,17 +1,17 @@
 // 트리 노드 타입 정의
-export interface TreeNode {
+export interface BaseNode {
   id: string; // 경로 기반 유니크 ID
   name: string; // 표시용 이름
   path: string; // 루트 기준 상대 경로 (예: "topic1/subtopic1/title1")
   type: "folder" | "file";
 }
 
-export interface FolderNode extends TreeNode {
+export interface FolderNode extends BaseNode {
   type: "folder";
   children: TreeNode[];
 }
 
-export interface FileNode extends TreeNode {
+export interface FileNode extends BaseNode {
   type: "file";
   meta?: {
     title?: string;
@@ -19,6 +19,7 @@ export interface FileNode extends TreeNode {
     description?: string;
   };
 }
+export type TreeNode = FolderNode | FileNode;
 
 export function isFolderNode(node: TreeNode): node is FolderNode {
   return node.type === "folder";
