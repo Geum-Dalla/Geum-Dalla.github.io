@@ -12,11 +12,12 @@ export interface NavItemProps {
   Icon: LucideIcon;
   label: string;
   isActive?: boolean;
+  onClick?: () => void;
 }
 
-export default function NavButton({ Icon, label, isActive }: NavItemProps) {
+export default function NavButton({ Icon, label, isActive, onClick }: NavItemProps) {
   return (
-    <div>
+    <div onClick={onClick}>
       <button className="group relative flex flex-col items-center justify-center p-2">
         <div className={clsx(iconStyles, isActive && activedIconStyles)}>
           {<Icon color={isActive ? "red" : "black"} />}
