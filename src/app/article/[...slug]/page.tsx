@@ -1,4 +1,4 @@
-import { getArticleTree, getFileNodeBySlug } from "@/lib/articles/tree";
+import { getArticleTree, getFileItemBySlug } from "@/lib/articles/tree";
 import { getArticleContent, getAllArticleSlugs } from "@/lib/articles/content";
 
 interface Props {
@@ -9,7 +9,6 @@ interface Props {
 export async function generateStaticParams() {
   const tree = getArticleTree();
   const slugs = getAllArticleSlugs(tree);
-
   return [
     { slug: [] }, // 루트 페이지
     ...slugs.map((slug) => ({ slug })),
@@ -21,11 +20,10 @@ export default async function ArticlesPage({ params }: Props) {
   const Tree = getArticleTree();
 
   // 현재 선택된 파일 노드 찾기
-  const selectedNode = slug.length > 0 ? getFileNodeBySlug(Tree, slug) : null;
+  const selectedNode = slug.length > 0 ? getFileItemBySlug(Tree, slug) : null;
 
   // 선택된 파일의 내용 가져오기
   const articleContent = selectedNode ? await getArticleContent(slug) : null;
-
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* 좌측 트리 패널 */}

@@ -1,8 +1,7 @@
 import fs from "fs";
-import path from "path";
 import matter from "gray-matter";
 import { getFilePathBySlug } from "./tree";
-import { FolderNode, isFileNode, isFolderNode, TreeNode } from "./types";
+import { FileSystemNode, FolderItem, isFileItem, isFolderItem } from "./types";
 
 export interface ArticleContent {
   content: string;
@@ -48,14 +47,14 @@ export async function getArticleContent(slug: string[]): Promise<ArticleContent 
  * 트리에서 모든 파일 노드의 slug를 수집합니다.
  * generateStaticParams에서 사용됩니다.
  */
-export function getAllArticleSlugs(tree: FolderNode): string[][] {
+export function getAllArticleSlugs(tree: FolderItem): string[][] {
   const slugs: string[][] = [];
 
-  function collectSlugs(nodes: TreeNode[], currentPath: string[] = []) {
+  function collectSlugs(nodes: FileSystemNode[], currentPath: string[] = []) {
     for (const node of nodes) {
-      if (isFileNode(node)) {
+      if (isFileItem(node)) {
         slugs.push([...currentPath, node.name]);
-      } else if (isFolderNode(node)) {
+      } else if (isFolderItem(node)) {
         collectSlugs(node.children, [...currentPath, node.name]);
       }
     }
