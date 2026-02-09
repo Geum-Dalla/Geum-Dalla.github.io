@@ -1,4 +1,4 @@
-import Article from "./Article";
+import Article from "@/components/nav/NavItems/Article/Article";
 import { getArticleTree } from "@/lib/articles/tree";
 
 // 필요한 데이터를 Article로 넘겨줌
