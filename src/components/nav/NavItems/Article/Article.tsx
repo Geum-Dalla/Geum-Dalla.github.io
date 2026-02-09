@@ -3,9 +3,9 @@
 import { FolderClosed, FolderOpen } from "lucide-react";
 
 import NavButton from "@/ui/nav/NavButton";
-import { useNavContext } from "@/components/nav/NavigationProvider";
+import { useNavContext } from "@/components/Nav/NavigationProvider";
 import { FolderItem } from "@/lib/articles/types";
-import FileTree from "@/components/nav/navItems/Article/FileTree";
+import FileTree from "@/components/nav/navItems/article/FileTree";
 import clsx from "clsx";
 
 /*
