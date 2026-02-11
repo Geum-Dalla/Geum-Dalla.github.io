@@ -17,7 +17,7 @@ import clsx from "clsx";
 배경색 (bg-gray-100 - 페이지 전체 배경 같은 경우)
 */
 const basicFileTreeStyles = `
-      absolute bottom-15 left-1/2 overflow-x-auto w-110 border-1 border-blue-50 scrollbar-thin
+      absolute bottom-15 left-1/2 overflow-x-auto w-110 scrollbar-thin
       rounded
       transition-transform duration-200 ease-out origin-bottom max-md:-translate-x-1/2
 `;
