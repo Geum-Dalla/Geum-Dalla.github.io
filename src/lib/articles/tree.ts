@@ -2,16 +2,15 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { type FolderItem, type FileItem, type FileSystemNode, isFolderItem, isFileItem } from "./types";
-import { cache } from "react";
 
 // articles 폴더의 최상위 경로
 const articlesDir = path.join(process.cwd(), "articles");
 
-/**
- * articles 폴더를 재귀적으로 탐색하여 트리 구조를 생성합니다.
- * 빌드 타임에만 실행됩니다.
- */
-export const getArticleTree = cache((): FolderItem => {
+function getDirMetaData(path: string) {
+  return JSON.parse(fs.readFileSync(path, "utf-8"));
+}
+
+export const getArticleTree = (): FolderItem => {
   function buildTree(dirPath: string, relativePath: string = ""): FileSystemNode[] {
     if (!fs.existsSync(dirPath)) {
       return [];
@@ -26,55 +25,43 @@ export const getArticleTree = cache((): FolderItem => {
 
     // 1. 폴더 처리
     for (const folder of folders) {
-      // ★ 핵심 수정 1: 맥북(NFD) 호환성을 위해 이름 정규화 (NFC)
-      const normalizedFolderName = folder.name.normalize("NFC");
-
-      // 파일 시스템 접근용 (원본 이름 사용)
       const folderPath = path.join(dirPath, folder.name);
-
-      // 트리 데이터용 (정규화된 이름 사용)
-      const folderRelativePath = relativePath ? `${relativePath}/${normalizedFolderName}` : normalizedFolderName;
-
+      const folderRelativePath = relativePath ? `${relativePath}/${folder.name}` : folder.name;
       const children = buildTree(folderPath, folderRelativePath);
 
       const folderNode: FolderItem = {
         id: folderRelativePath,
-        name: normalizedFolderName, // 정규화된 이름 저장
+        name: folder.name,
         path: folderRelativePath,
         type: "folder",
         children,
       };
+      // 폴더에 대한 meta Data가 있다면
+      if (fs.existsSync(path.join(folderPath, "_meta.json"))) {
+        folderNode["meta"] = getDirMetaData(path.join(folderPath, "_meta.json"));
+      }
 
       nodes.push(folderNode);
     }
 
     // 2. 파일 처리
     for (const file of files) {
-      // 파일 시스템 접근용 (원본 이름 사용)
       const filePath = path.join(dirPath, file.name);
-
-      // ★ 핵심 수정 2: 맥북(NFD) 호환성을 위해 파일명 정규화 (NFC)
-      const fileNameWithoutExt = file.name.replace(/\.md$/, "").normalize("NFC");
-
-      // 트리 데이터용 (정규화된 이름 사용)
+      const fileNameWithoutExt = file.name.replace(/\.md$/, "");
       const fileRelativePath = relativePath ? `${relativePath}/${fileNameWithoutExt}` : fileNameWithoutExt;
 
       // front-matter 파싱
       let meta: FileItem["meta"] = {};
-      try {
-        const fileContents = fs.readFileSync(filePath, "utf8");
-        const { data } = matter(fileContents);
 
-        meta = {
-          title: data.title || fileNameWithoutExt,
-          date: data.date || "",
-          description: data.description || "",
-          ...data,
-        };
-      } catch (error) {
-        // 파싱 실패 시 파일명을 제목으로 사용
-        meta = { title: fileNameWithoutExt };
-      }
+      const fileContents = fs.readFileSync(filePath, "utf8");
+      const { data } = matter(fileContents);
+
+      meta = {
+        title: data.title || fileNameWithoutExt,
+        date: data.date || "",
+        description: data.description || "",
+        ...data,
+      };
 
       const fileItem: FileItem = {
         id: fileRelativePath,
@@ -99,9 +86,13 @@ export const getArticleTree = cache((): FolderItem => {
     name: "articles",
     path: "",
     type: "folder",
+    meta: {
+      title: "폴더",
+      description: "",
+    },
     children,
   };
-});
+};
 
 /**
  * slug 배열을 받아서 해당하는 FileItem를 찾습니다.
@@ -115,14 +106,10 @@ export function getFileItemBySlug(tree: FolderItem, slug: string[]): FileItem | 
     if (pathSegments.length === 0) {
       return null;
     }
-
     const [first, ...rest] = pathSegments;
+    const targetName = decodeURIComponent(first);
 
-    // ★ 핵심 수정 3: URL 인코딩 해제 + 정규화 (NFC)
-    // 브라우저는 '한글'을 '%ED%95%9C%EA%B8%80'로 보내므로 decodeURIComponent 필수
-    const targetName = decodeURIComponent(first).normalize("NFC");
-
-    const node = nodes.find((n) => n.name.normalize("NFC") === targetName);
+    const node = nodes.find((n) => n.name === targetName);
 
     if (!node) {
       return null;
@@ -149,12 +136,8 @@ export function getFileItemBySlug(tree: FolderItem, slug: string[]): FileItem | 
  * (주의: 파일 시스템이 NFD를 쓰더라도 Node.js는 보통 NFC 경로도 잘 처리해 줍니다)
  */
 export function getFilePathBySlug(slug: string[]): string {
-  // 슬러그 자체를 디코딩해서 경로로 조합
-  const decodedSlug = slug.map((s) => decodeURIComponent(s).normalize("NFC"));
-  const fileName = decodedSlug[decodedSlug.length - 1];
-  const dirPath = decodedSlug.slice(0, -1);
-
-  // OS별 경로 구분자 처리를 위해 path.join 사용
+  const fileName = slug[slug.length - 1];
+  const dirPath = slug.slice(0, -1);
   const fullPath = path.join(articlesDir, ...dirPath, `${fileName}.md`);
   return fullPath;
 }

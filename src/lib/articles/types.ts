@@ -8,6 +8,10 @@ export interface FileSystemNode {
 
 export interface FolderItem extends FileSystemNode {
   type: "folder";
+  meta?: {
+    title?: string;
+    description?: string;
+  };
   children: FileSystemNode[];
 }
 

@@ -15,7 +15,7 @@ export default function Column({ folder, selectedId, onFolderClick, isActiveColu
         ${isActiveColumn ? "bg-white ring-1 ring-blue-300" : "bg-zinc-50"}`}
     >
       <div className="px-3 py-2 text-xs font-semibold text-zinc-500 uppercase tracking-wide border-b border-zinc-200">
-        {folder.name}
+        {folder.meta ? folder.meta.title : folder.name}
       </div>
 
       {folder.children.length === 0 ? (

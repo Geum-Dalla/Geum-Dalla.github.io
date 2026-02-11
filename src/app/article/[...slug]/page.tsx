@@ -9,10 +9,7 @@ interface Props {
 export async function generateStaticParams() {
   const tree = getArticleTree();
   const slugs = getAllArticleSlugs(tree);
-  return [
-    { slug: [] }, // 루트 페이지
-    ...slugs.map((slug) => ({ slug })),
-  ];
+  return [...slugs.map((slug) => ({ slug }))];
 }
 
 export default async function ArticlesPage({ params }: Props) {
