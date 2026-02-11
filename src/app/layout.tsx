@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="ko">
-      <body>
+      <body className="w-screen h-screen">
         <main>{children}</main>
         <nav>
           <NavContainer />

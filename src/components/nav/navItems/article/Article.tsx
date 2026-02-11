@@ -17,9 +17,9 @@ import clsx from "clsx";
 배경색 (bg-gray-100 - 페이지 전체 배경 같은 경우)
 */
 const basicFileTreeStyles = `
-      absolute bottom-15 left-1/2 w-max
-      rounded px-2 py-1 
-      transition-transform duration-200 ease-out origin-bottom -translate-x-1/2
+      absolute bottom-15 left-1/2 overflow-x-auto w-110 border-1 border-blue-50 scrollbar-thin
+      rounded
+      transition-transform duration-200 ease-out origin-bottom max-md:-translate-x-1/2
 `;
 const openFileTreeStyles = "opacity-100 visible scale-100 translate-y-0"; // 활성: 원래 크기, 원래 위치
 const closedFileTreeStyles = "opacity-0 invisible scale-0 translate-y-4 pointer-events-none"; // 비활성: 작아지고, 약간 아래로, 클릭 방지

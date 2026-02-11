@@ -7,7 +7,7 @@ import { cn } from "@/lib/styleUtils";
 
 const styles = cn(
   "flex gap-0 scrollbar-thin overflow-x-auto overflow-y-hidden",
-  "md:w-110 md:h-100", // 768px 이상
+  "md:w-max md:h-100", // 768px 이상
   "h-50 w-85",
 );
 
