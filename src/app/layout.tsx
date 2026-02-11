@@ -1,8 +1,6 @@
+import { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 import "./globals.css";
-
-import NavContainer from "@/components/nav/NavContainer";
-import { PropsWithChildren } from "react";
 
 export const metadata: Metadata = {
   title: "금달라 블로그",
@@ -14,9 +12,6 @@ export default function RootLayout({ children }: PropsWithChildren) {
     <html lang="ko">
       <body className="w-screen h-screen">
         <main>{children}</main>
-        <nav>
-          <NavContainer />
-        </nav>
       </body>
     </html>
   );
