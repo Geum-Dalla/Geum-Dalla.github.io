@@ -19,7 +19,7 @@ import clsx from "clsx";
 const basicFileTreeStyles = `
       absolute bottom-15 left-1/2 w-max
       rounded px-2 py-1 
-      transition-transform duration-200 ease-out origin-bottom
+      transition-transform duration-200 ease-out origin-bottom -translate-x-1/2
 `;
 const openFileTreeStyles = "opacity-100 visible scale-100 translate-y-0"; // 활성: 원래 크기, 원래 위치
 const closedFileTreeStyles = "opacity-0 invisible scale-0 translate-y-4 pointer-events-none"; // 비활성: 작아지고, 약간 아래로, 클릭 방지

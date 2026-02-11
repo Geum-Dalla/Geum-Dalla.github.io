@@ -1,13 +1,19 @@
 import { useMemo, useState } from "react";
+
 import { FolderItem, isFolderItem } from "@/lib/articles/types";
 import Column from "@/ui/nav/article/Column";
+
+import { cn } from "@/lib/styleUtils";
+
+const styles = cn(
+  "flex gap-0 scrollbar-thin overflow-x-auto overflow-y-hidden",
+  "md:w-110 md:h-100", // 768px 이상
+  "h-50 w-85",
+);
 
 interface FileTreeProps {
   RootFolderItem: FolderItem;
 }
-
-// TODO: 아주 깊은 폴더가 있다면?
-// TODO: 모바일에선 어떻게 표현할 것인가?
 
 export default function FileTree({ RootFolderItem }: FileTreeProps) {
   const [selectedByFolderId, setSelectedByFolderId] = useState<Record<string, string>>({}); // 모든 폴더의 열림/닫힘 상태를 저장함
@@ -46,7 +52,7 @@ export default function FileTree({ RootFolderItem }: FileTreeProps) {
   };
 
   return (
-    <div className="flex gap-0 h-100 overflow-hidden">
+    <div className={styles}>
       {columns.map((folder, colIndex) => {
         const isActiveColumn = colIndex === columns.length - 1;
 
